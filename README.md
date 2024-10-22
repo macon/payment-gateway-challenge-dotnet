@@ -49,7 +49,7 @@ with `BankClientLogger`. I find this approach simplifies the application logic a
 I've combined the `POST` call's `CancellationToken` with my own `5s` token as a way of enforcing some 
 performance guarantees and deriving some SLAs/SLOs. This should be thought about more deeply, for example what 
 is our behavior before and after a call has made it to the bank? This is where the async API recommendation will also 
-help as we
+help.
 
 ## Recommendations
 Currently, `POST /payments` is synchronous and the client response is waiting on the bank call. This complicates the API 
@@ -87,4 +87,4 @@ I've left various `// TODO` comments scattered around the code which we can disc
 ## Libraries used
 - [Scrutor](https://github.com/khellang/Scrutor) for some extended DI features (`Decorate<T>` in my case).
 - [OneOf](https://github.com/mcintyre321/OneOf) for the `OneOf<T1, Tn>` (C# discriminated union)
-- The `Val<T>` & `Opt<T>` are my own library which will soon be available publicly (also includes a `One<T, Tn>` type!)
+- The `Val<T>` & `Opt<T>` are from my own library which will soon be available publicly (also includes a `One<T, Tn>` type!)
