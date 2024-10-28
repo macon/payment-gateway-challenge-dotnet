@@ -24,7 +24,7 @@ public class PaymentsController(PaymentRequestCache paymentRequestCache, Payment
             ? BadRequest($"Supplied payment Id '{id}' is invalid. Must be a valid GUID.")
             : paymentService.GetPayment(paymentId)
                 .Match(
-                    none: () => NotFound($"Payment not found: {id}"),
+                    none: () => NotFound($"Payment not found: {id}"), 
                     some: OkResult);
 
     [HttpPost]
@@ -69,6 +69,7 @@ public class PaymentsController(PaymentRequestCache paymentRequestCache, Payment
 
         var paymentRequestVal =
             postPaymentRequest == null
+                // model mapping failed (e.g. required fields missing)
                 ? Val<PaymentRequest>.Invalid("Malformed request")
                 : PaymentRequest.New(
                     CreditCard.New(postPaymentRequest.CardNumber, postPaymentRequest.ExpiryMonth,
@@ -77,7 +78,7 @@ public class PaymentsController(PaymentRequestCache paymentRequestCache, Payment
                     idempotencyKey,
                     postPaymentRequest.GetHash);
 
-        return paymentRequestVal.Match<PaymentRequestValidationResult>(
+        return paymentRequestVal.Match(
             err => new InvalidRequest(err),
             paymentRequest =>
             {

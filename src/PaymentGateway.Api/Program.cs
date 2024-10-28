@@ -38,6 +38,7 @@ builder.Services.Configure<JsonOptions>(opts =>
     opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
 });
 
+// TODO: Turned off model state validation middleware so all validation can be handled in same place consistently.
 builder.Services.Configure<ApiBehaviorOptions>(opts => opts.SuppressModelStateInvalidFilter = true);
 builder.Services.AddScoped<PaymentService, PaymentService>();
 
